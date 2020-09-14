@@ -1,0 +1,16 @@
+<div>
+<p> 
+    <%= participant.name %>
+</p>
+<p> 
+    <%= participant.email %>
+</p>
+<p> 
+    <%= participant.participanttype %>
+</p>
+<p> 
+<iframe src="<%= participant.resume.url %>"></iframe>
+</p>
+    <%= link_to 'Edit', edit_participant_path(participant) %> |
+    <%= link_to 'Destroy', participant_path(participant), method: :delete, data: { confirm: 'Are you sure?' } %>
+</div>
