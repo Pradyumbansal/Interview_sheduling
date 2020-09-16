@@ -1,4 +1,4 @@
-<%= form_with model: @participant, local: true do |form| %>
+<%= form_with model: @participant, scope: :participant, local: true do |form| %>
     <p>
         <%= form.label :name %><br>
         <%= form.text_field :name %>
@@ -10,14 +10,33 @@
     </p>
     <p>
         <%= form.label :participanttype %><br>
-        <%= form.radio_button :participanttype, 'Interviewee' %> Interviewee <br />
-        <%= form.radio_button :participanttype, 'Interviewer' %> Interviewer <br />
+        <%= form.radio_button :participanttype, 'Interviewee', onClick: "fun(1)" %> Interviewee <br />
+        <%= form.radio_button :participanttype, 'Interviewer', onClick: "fun(2)" %> Interviewer <br />
     </p>
+    <div id = "resume">
     <p>
         <%= form.label :resume %><br>
         <%= form.file_field :resume %>
     </p>
+    </div>
     <p>
-      <%= form.submit %>
+<%= form.submit %>
     </p>
   <% end %>
+  <script>
+  var ch = 1;
+  var store;
+    function fun(x){
+        if (ch == 1) {
+            store = document.getElementById("resume").innerHTML;
+            ch = 0;
+        }
+        if(x == 2) {
+            document.getElementById("resume").innerHTML = " ";
+        } else {
+            document.getElementById("resume").innerHTML = store;
+        }
+
+    }
+  </script>
+

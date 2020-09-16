@@ -1,0 +1,34 @@
+<%= form_with model: @interview,  local: true do |form| %>
+<% if @interview.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(@interview.errors.count, "error") %> prohibited
+        this article from being saved:
+      </h2>
+      <ul>
+        <% @interview.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+    <p>
+        <%= form.label :start_time %><br>
+        <%= form.datetime_field :st_time %>
+    </p>
+   <p>
+        <%= form.label :end_time %><br>
+        <%= form.datetime_field :en_time %>
+    </p>
+    <p>     
+    <%= form.label :Interviewee %><br>
+     <%= form.collection_select( :id1 , @participant1 , :id, :name) %>
+    </p>
+    <p>     
+    <%= form.label :Interviewer %><br>
+     <%= form.collection_select( :id2 , @participant2 , :id, :name) %>
+    </p>
+    <p>
+        <%= form.submit %>
+    </p>
+<% end %>

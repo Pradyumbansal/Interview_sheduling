@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200914145534) do
+ActiveRecord::Schema.define(version: 20200915144325) do
+
+  create_table "interviews", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "id1"
+    t.integer "id2"
+    t.datetime "st_time"
+    t.datetime "en_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "participants", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
@@ -18,10 +27,16 @@ ActiveRecord::Schema.define(version: 20200914145534) do
     t.string "participanttype"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "resume_file_name"
     t.string "resume_content_type"
     t.bigint "resume_file_size"
     t.datetime "resume_updated_at"
+    t.integer "user_id"
   end
 
 end

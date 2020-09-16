@@ -1,1 +1,6 @@
 <%= render @participant %>
+<% if @participant.participanttype == 'Interviewee'%>
+ <p> 
+ <iframe src = " <%= (User.find_by user_id: @participant.id).resume.url %> "></iframe>
+ </p>
+<% end %>
