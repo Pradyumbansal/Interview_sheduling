@@ -1,25 +1,23 @@
 class UserMailer < ApplicationMailer
+    before_action :set_interviews, only: [:schedule, :update, :reminder]
     default from: 'notifications@example.com'
- 
-    def welcome_email
-        @user = params[:user]
-        @participant = Participant.find(@user.id1)
-        @url  = 'http://example.com/login'
-        puts "hghg"
-        puts mail(to: @participant.email, subject: 'Your interview has been scheduled')
+    def schedule
+        mail(to: @interviewee.email, subject: 'Your interview has been scheduled')
+        mail(to: @interviewer.email, subject: 'Your interview has been scheduled')
     end
-    def delete_email
-        @user = params[:user]
-        @participant = Participant.find(@user.id1)
-        @url  = 'http://example.com/login'
-        puts "hghg"
-        puts mail(to: @participant.email, subject: 'Your interview has been canceled')
+    def update
+        mail(to: @interviewee.email, subject: 'Your interview has been updated')
+        mail(to: @interviewer.email, subject: 'Your interview has been updated')
     end
     def reminder
-        @user = params[:user]
-        @participant = Participant.find(@user.id1)
-        @url  = 'http://example.com/login'
-        puts "hghg"
-        puts mail(to: @participant.email, subject: 'reminder')
+        mail(to: @interviewee.email, subject: 'Reminder for the interview')
+        mail(to: @interviewer.email, subject: 'Reminder for the interview')
     end
+    private
+        def set_interviews
+            @user = params[:user]
+            @interviewee = Participant.find(@user.id1)
+            @interviewer = Participant.find(@user.id2)
+            @url  = 'http://example.com/login'
+        end
 end

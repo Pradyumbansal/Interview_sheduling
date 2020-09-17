@@ -9,20 +9,16 @@
 </p>
 <p> 
     <strong> Interviewee_Name: </strong>
-    <%= Participant.find(interview.id1).name %>
-</p>
-<p> 
+    <%= Participant.find(interview.id1).name %> | 
     <%= link_to 'show details', participant_path(Participant.find(interview.id1)) %>
 </p>
 <p> 
     <strong> Interviewer_Name: </strong>
-    <%= Participant.find(interview.id2).name %>
-</p>
-<p> 
+    <%= Participant.find(interview.id2).name %> | 
     <%= link_to 'show details', participant_path(Participant.find(interview.id2)) %>
 </p>
 <p>
-    <%= link_to 'edit', edit_interview_path(interview) %> | 
+    <%= link_to 'Edit', edit_interview_path(interview) %> | 
     <%= link_to 'Destroy', interview_path(interview), method: :delete, data: { confirm: 'Are you sure?' } %>
 
 </p>

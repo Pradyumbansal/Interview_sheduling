@@ -3,6 +3,12 @@ class Interview < ApplicationRecord
     validate :correct_date
 end
 def correct_date
+    if (self.en_time - self.st_time) < 30.minutes
+        errors.add(:Too_short_for_the_interview, "Short duration")
+    end
+    if (self.en_time - self.st_time) > 2.hours
+        errors.add(:Too_long_for_the_interview, "long duration duration")
+    end  
     if self.st_time > self.en_time
         errors.add(:invalid_date, "start time is greater than end time")
     end
