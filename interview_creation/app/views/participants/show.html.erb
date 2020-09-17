@@ -4,3 +4,4 @@
  <iframe src = " <%= (User.find_by user_id: @participant.id).resume.url %> "></iframe>
  </p>
 <% end %>
+<%= link_to "All Users", participants_path %>

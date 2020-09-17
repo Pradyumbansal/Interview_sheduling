@@ -12,12 +12,8 @@ class ParticipantsController < ApplicationController
     end
     def create
         @participant = Participant.new(participant_params)
-        puts "hhghg"
         val = Val.new
         response = val.check(params)
-        puts response
-        puts "here"
-        puts val
         if response && @participant.save
             if (params[:participant][:resume] != nil) 
                 params[:participant][:user_id] = @participant.id
@@ -34,16 +30,16 @@ class ParticipantsController < ApplicationController
         @participant = Participant.find(params[:id])
     end
     def update
-        if @participant.update(participant_params)
+        val = Val.new
+        response = val.check(params)
+        if response && @participant.update(participant_params)
             params[:participant][:user_id] = @participant.id
             @user = User.find_by user_id: @participant.id
-            if (@user != nil) 
-                if @user = User.update(user_params)
-
-                    redirect_to participants_path(@participant)
-                else render 'edit'
-                end
-            end  
+            if (params[:participant][:resume] != nil) 
+                params[:participant][:user_id] = @participant.id
+                @user = User.update(user_params)
+            end 
+            redirect_to participant_path(@participant)
         else
             render 'edit'
         end

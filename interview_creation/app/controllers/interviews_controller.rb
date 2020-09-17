@@ -10,7 +10,6 @@ class InterviewsController < ApplicationController
         @interview = Interview.new 
         @participant1 = Participant.where(participanttype: 'Interviewee')
         @participant2 = Participant.where(participanttype: 'Interviewer')
-        
     end
     def create
         @participant1 = Participant.where(participanttype: 'Interviewee')
@@ -18,10 +17,11 @@ class InterviewsController < ApplicationController
         @interview = Interview.new(interview_params)
         if @interview.save
             UserMailer.with(user: @interview).welcome_email.deliver_later
+            UserMailer.with(user: @interview).reminder.deliver_later!(wait_untill: @interview.st_time - 5.hours - 1.minutes)
             redirect_to interview_path(@interview)
         else 
         render 'new'
-        end 
+        end
     end
     def edit
         @participant1 = Participant.where(participanttype: 'Interviewee')
@@ -39,6 +39,7 @@ class InterviewsController < ApplicationController
     end
     def destroy
         if @interview.present?
+            # MailsJob.perform_later(@interview, "delete")
             @interview.destroy
         end
         redirect_to interviews_path
