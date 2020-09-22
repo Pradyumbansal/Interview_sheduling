@@ -1,14 +1,18 @@
 class ParticipantsController < ApplicationController
+    skip_before_action  :verify_authenticity_token 
     before_action :set_participant, only: [:show, :edit, :update, :destroy]
     require 'Val'
     def index
         @participant = Participant.all
+        # render json: @participant
     end
     def new
         @participant = Participant.new
         @user = User.new
     end
     def show 
+        @user = User.find_by user_id: @participant.id
+        render json: {participant: @participant, user: @user}
     end
     def create
         @participant = Participant.new(participant_params)

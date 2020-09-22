@@ -1,10 +1,12 @@
 class InterviewsController < ApplicationController
+    skip_before_action  :verify_authenticity_token 
     before_action :set_participant, only: [:show, :edit, :update, :destroy]
     before_action :set_participants, only: [:new, :create, :edit, :update]
     def index
         @interview = Interview.all
     end
     def show 
+        # render json: @interview
     end
     def new
         @interview = Interview.new 
@@ -12,12 +14,9 @@ class InterviewsController < ApplicationController
     def create
         @interview = Interview.new(interview_params)
         if @interview.save
-            UserMailer.with(user: @interview).schedule.deliver_later
+            ActjobJob.perform_later(@interview, "schedule")
             scheduledtime = @interview.st_time - 5.hours - 30.minutes - 30.minutes
-            if (scheduledtime < Time.now)
-                scheduledtime = scheduledtime + 30.minutes
-            end
-            UserMailer.with(user: @interview).reminder.deliver_later!(wait_until: scheduledtime)
+            ActjobJob.set(wait_until: scheduledtime).perform_later(@interview, "reminder")
             redirect_to interview_path(@interview) 
         else 
         render 'new'
@@ -28,7 +27,7 @@ class InterviewsController < ApplicationController
 
     def update
         if @interview.update(interview_params)
-            UserMailer.with(user: @interview).update.deliver_later
+            ActjobJob.perform_later(@interview, "update")
             redirect_to interview_path(@interview)
         else 
         render 'edit'

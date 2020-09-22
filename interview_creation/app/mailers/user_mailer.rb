@@ -2,7 +2,7 @@ class UserMailer < ApplicationMailer
     before_action :set_interviews, only: [:schedule, :update, :reminder]
     default from: 'notifications@example.com'
     def schedule
-        mail(to: @interviewee.email, subject: 'Your interview has been scheduled')
+        puts mail(to: @interviewee.email, subject: 'Your interview has been scheduled')
         mail(to: @interviewer.email, subject: 'Your interview has been scheduled')
     end
     def update
