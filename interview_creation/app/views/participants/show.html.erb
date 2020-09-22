@@ -1,0 +1,7 @@
+<%= render @participant %>
+<% if @participant.participanttype == 'Interviewee'%>
+ <p> 
+    <a href = " <%= (User.find_by user_id: @participant.id).resume.url %> ">resume</a>
+ </p>
+<% end %>
+<%= link_to "All Users", participants_path %>
