@@ -19,41 +19,45 @@ class ParticipantsController < ApplicationController
         render json: {participant: @participant, user: @user, Userresume: resume}
     end
     def create
+        params[:participant] = params
         @participant = Participant.new(participant_params)
-        # val = Val.new
-        # response = val.check(params)
+        val = Val.new
+        response = val.check(params)
         
-        if @participant.save
+        if response && @participant.save
             if (params[:participant][:resume] != nil) 
                 params[:participant][:user_id] = @participant.id
                 @user = User.new(user_params)
                 @user.save
             end 
             # redirect_to participant_path(@participant)
-            render json: {participant: @participant, user: @user}
+            render json: @participant
         else     
         # render 'new'
-        render json: @participant.errors
+        render json: @participant.errors, status: 401
         end
     end
     def edit
         @participant = Participant.find(params[:id])
     end
     def update
-        # val = Val.new
-        # response = val.check(params)
-        if @participant.update(participant_params)
-            params[:participant][:user_id] = @participant.id
+        params[:participant] = params
+        val = Val.new
+        response = val.check(params)
+        
+        puts params
+        
+        if response && @participant.update(participant_params)
             @user = User.find_by user_id: @participant.id
             if (params[:participant][:resume] != nil) 
                 params[:participant][:user_id] = @participant.id
-                @user = User.update(user_params)
+                @user.update(user_params)
             end 
-            render json: {participant: @participant, user: @user}
+            render json: @participant
             # redirect_to participant_path(@participant)
         else
             # render 'edit'
-            render json: @participant.errors
+            render json: @participant.errors, status: 401
         end
     end
     def destroy

@@ -15,26 +15,25 @@ class InterviewsController < ApplicationController
     def create
         @interview = Interview.new(interview_params)
         if @interview.save
-            ActjobJob.perform_later(@interview, "schedule")
+            # ActjobJob.perform_later(@interview, "schedule")
             scheduledtime = @interview.st_time - 5.hours - 30.minutes - 30.minutes
-            ActjobJob.set(wait_until: scheduledtime).perform_later(@interview, "reminder")
+            # ActjobJob.set(wait_until: scheduledtime).perform_later(@interview, "reminder")
             render json: @interview
             # redirect_to interview_path(@interview) 
         else 
-            render json: @interview.errors
+            render json: @interview.errors, status: 401
         end
     end
     def edit
     end
 
     def update
-        
         if @interview.update(interview_params)
             # ActjobJob.perform_later(@interview, "update")
             # redirect_to interview_path(@interview)
             render json: @interview
         else
-            render json: @interview.errors
+            render json: @interview.errors, status: 401
         end
     end
     def destroy

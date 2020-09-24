@@ -21,7 +21,7 @@ def cannot_overlap_another_event
         @user.each do |user|
             st = user.st_time
             en = user.en_time
-            if [st, self.st_time].max < [en, self.en_time].min
+            if [st, self.st_time].max < [en, self.en_time].min && self.id != user.id
                 errors.add(:Not_possible, "time overlap with interviewee")
             end
         end
@@ -29,7 +29,7 @@ def cannot_overlap_another_event
         @user.each do |user|
             st = user.st_time
             en = user.en_time
-            if [st, self.st_time].max < [en, self.en_time].min
+            if [st, self.st_time].max < [en, self.en_time].min && self.id != user.id
                 errors.add(:cannot_schedule_interview, "time oerlap with interviewer")
             end
         end
