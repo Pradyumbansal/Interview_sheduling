@@ -16,9 +16,18 @@ class ParticipantsController < ApplicationController
         if @participant.participanttype == 'Interviewee'
             resume = @user.resume.url
         end
-        render json: {participant: @participant, user: @user, Userresume: resume}
+        # render json: @participant
+        # render json: {participant: @participant, user: @user, Userresume: resume}
+        result = {
+            name: @participant.name,
+            email: @participant.email,
+            participanttype: @participant.participanttype,
+            resume: resume
+        }
+        render json: result
     end
     def create
+        puts params
         params[:participant] = params
         @participant = Participant.new(participant_params)
         val = Val.new

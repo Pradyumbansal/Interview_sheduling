@@ -4,7 +4,17 @@ class InterviewsController < ApplicationController
     before_action :set_participants, only: [:new, :create, :edit, :update]
     def index
         @interview = Interview.all
-        render json: @interview
+        result = []
+        @interview.each do |i| 
+            result.append({
+                id: i.id,
+                start_time: i.st_time,
+                end_time: i.en_time,
+                interviewee: Participant.find(i.id1),
+                interviewer: Participant.find(i.id2)
+            })
+        end
+        render json: result
     end
     def show 
         render json: @interview
@@ -22,6 +32,7 @@ class InterviewsController < ApplicationController
             # redirect_to interview_path(@interview) 
         else 
             render json: @interview.errors, status: 401
+            # render 'new'
         end
     end
     def edit
