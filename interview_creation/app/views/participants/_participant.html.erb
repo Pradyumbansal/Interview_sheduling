@@ -1,0 +1,20 @@
+<div>
+<p> 
+    <strong> Name: </strong>
+    <%= participant.name %>
+</p>
+<p> 
+    <strong> Email: </strong>
+    <%= participant.email %>
+</p>
+<p> 
+    
+    <strong> Category: </strong>
+    <%= participant.participanttype %>
+</p>
+
+
+    <%= link_to 'Show', participant_path(participant) %> | 
+    <%= link_to 'Edit', edit_participant_path(participant) %> |
+    <%= link_to 'Destroy', participant_path(participant), method: :delete, data: { confirm: 'Are you sure?' } %>
+</div>
